@@ -23,9 +23,9 @@ ton3: 0.5 == 1638 (Dc)
 */
 
 // Tempos em milissegundos para as posições do servo
-#define position1 2.4f  // 180 graus
-#define position2 1.47f // 90 graus
-#define position3 0.5f  // 0 graus
+#define position1 7864  // 180 graus
+#define position2 4816// 90 graus
+#define position3 1638  // 0 graus
 
 // Função para configurar o PWM no pino GPIO
 void setup_pwm(uint servo_pin) {
@@ -45,37 +45,35 @@ int main() {
 
     uint slice_num = pwm_gpio_to_slice_num(servo_pin);
     uint channel = pwm_gpio_to_channel(servo_pin);
-    uint16_t convert1 = (uint16_t)((position1 / 20.0f) * warp);
-    uint16_t convert2 = (uint16_t)((position3 / 20.0f) * warp);
-    float current = position3;
+    int current = position3;
 
     pwm_set_chan_level(slice_num, channel, (uint16_t)((position3 / 20.0f) * warp));
     while (true) {
         // Move o servo para a posição de 180 graus (2,4 ms de duty cycle)
-        pwm_set_chan_level(slice_num, channel, (uint16_t)((position1 / 20.0f) * warp));
+        pwm_set_gpio_level(servo_pin,position1);
         sleep_ms(5000);
 
         // Move o servo para a posição de 90 graus (1,47 ms de duty cycle)
-        pwm_set_chan_level(slice_num, channel, (uint16_t)((position2 / 20.0f) * warp));
+        pwm_set_gpio_level(servo_pin,position2);
         sleep_ms(5000);
 
         // Move o servo para a posição de 0 graus (0,5 ms de duty cycle)
-        pwm_set_chan_level(slice_num, channel, (uint16_t)((position3 / 20.0f) * warp));
+        pwm_set_gpio_level(servo_pin,position3);
         sleep_ms(5000);
 
         //giros de 180 graus de forma infinita        
         while(true){
             if(current<position1){
                 while(position1>current){
-                    current +=0.05;
-                    pwm_set_chan_level(slice_num, channel, (uint16_t)((current / 20.0f) * warp));
+                    current +=17;//angulo correspondente a 0.05
+                    pwm_set_gpio_level(servo_pin, current);
                     sleep_ms(10);
                 }
             }
             else{
                 while(current>position3){
-                    current -=0.05;
-                    pwm_set_chan_level(slice_num, channel, (uint16_t)((current / 20.0f) * warp));
+                    current -=17;
+                    pwm_set_gpio_level(servo_pin, current);
                     sleep_ms(10);
                 }
             }
