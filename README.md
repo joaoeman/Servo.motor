@@ -1,3 +1,6 @@
+link do vídeo: https://drive.google.com/file/d/1I_JD_P6Fwm3JBPXfT7hYnY-m2XuTHFjg/view?usp=drivesdk
+
+
 Como usar PWM no Servo Motor?
 Um servo motor é controlado por sinais PWM com um período fixo de 20 ms (50 Hz). A posição do servo é determinada pela largura do pulso (duty cycle) dentro desse período:
 
